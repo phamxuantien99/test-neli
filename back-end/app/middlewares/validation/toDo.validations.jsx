@@ -1,6 +1,6 @@
 const checkEmty = (req, res, next) => {
-    const {description, isFinish} = req.body
-    if(description && isFinish){
+    const {description} = req.body
+    if(description ){
         next()
     }else{
         res.status(500).send("không đươc để trống")

@@ -3,9 +3,9 @@ import {useSelector,useDispatch} from 'react-redux'
 import { addTaskApi, checkTaskApi, deleteTaskApi, getTaskListApi, rejectTaskApi } from '../redux/actions/ToDoListAction';
 import style from "./Todolist.css"
 
+
 export default function ToDoListRedux(props) {
     
-    //Lấy tasklist từ redux về
     const {taskList} = useSelector(state => state.ToDoListReducer);
     const dispatch = useDispatch();
 
@@ -50,7 +50,6 @@ export default function ToDoListRedux(props) {
 
     const addTask = (e) => {
         e.preventDefault(); 
-        console.log(state.values.taskName);
 
         dispatch(addTaskApi(state.values.taskName))
        
@@ -65,19 +64,17 @@ export default function ToDoListRedux(props) {
         }
     }, [])
 
-    
     const rejectTask = (taskName)=>{
         dispatch(rejectTaskApi(taskName));
 
     }
 
-    //Xử lý done task
    const checkTask = (taskName) => {
         dispatch(checkTaskApi(taskName))
     }
 
 
-    //Hàm xử lý xóa task
+
     const delTask = (taskName) => {
         dispatch(deleteTaskApi(taskName))
     }
@@ -132,12 +129,11 @@ export default function ToDoListRedux(props) {
             <div className="card__header">
                 <img src={require('./bg.png')} />
             </div>
-            {/* <h2>hello!</h2> */}
+            
             <form className="card__body" onSubmit={addTask}>
                 <div className="card__content">
                     <div className="card__title">
                         <h2>My Tasks</h2>
-                        <p>September 9,2020</p>
                     </div>
                     <div className="card__add">
                         <input id="newTask" name="taskName" type="text" placeholder="Enter an activity..." onChange={handleChange} />
@@ -146,11 +142,11 @@ export default function ToDoListRedux(props) {
                         </button>
                     </div>
                     <div className="card__todo">
-                        {/* Uncompleted tasks */}
+                        
                         <ul className="todo" id="todo">
                             {renderTaskToDo()}
                         </ul>
-                        {/* Completed tasks */}
+
                         <ul className="todo" id="completed">
                             {renderTaskToDoDone()}
                         </ul>

@@ -14,3 +14,8 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
+
+
+// setup sequelize
+const {sequelize} = require("./model/index.jsx")
+sequelize.sync({alter: true});

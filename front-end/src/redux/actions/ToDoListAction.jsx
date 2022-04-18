@@ -2,10 +2,12 @@ import Axios from "axios";
 import { GET_TASK_API } from "../constants/ToDoListConst";
 
 
+// 
+// 
 export const getTaskListApi = () => {
 
     return async dispatch => {
-
+  
         try {
             let { data, status} = await Axios({
                 url: 'http://svcy.myclass.vn/api/ToDoList/GetAllTask',
@@ -24,7 +26,7 @@ export const getTaskListApi = () => {
 }
 
 
-
+// ''
 export const addTaskApi = (taskName) => {
     return async dispatch => {
 
@@ -45,7 +47,7 @@ export const addTaskApi = (taskName) => {
     }
 }
 
-
+// 
 export const deleteTaskApi = (taskName) => {
     return dispatch => {
         let promise = Axios({
@@ -54,7 +56,6 @@ export const deleteTaskApi = (taskName) => {
         });
 
         promise.then(res => {
-            alert(res.data)
             dispatch(getTaskListApi())
         });
 
@@ -90,7 +91,6 @@ export const rejectTaskApi = (taskName) => {
         });
 
         promise.then(res => {
-            alert(res.data);
             dispatch(getTaskListApi());
         });
 

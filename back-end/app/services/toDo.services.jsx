@@ -1,22 +1,9 @@
-let toDoList = [
-  {
-    id: 1,
-    description: "sleeping",
-    isFinish: true,
-  },
-  {
-    id: 2,
-    description: "hello",
-    isFinish: false,
-  },
-  {
-    id: 3,
-    description: "kitty",
-    isFinish: true,
-  },
-];
+const {ToDo} = require("../model/index.jsx")
 
-const getList = () => {
+const getList = async () => {
+
+  const toDoList = await ToDo.findAll()
+
   if (toDoList) {
     return toDoList;
   } else {
@@ -24,46 +11,53 @@ const getList = () => {
   }
 };
 
-const getDetail = (id) => {
-    const index = toDoList.findIndex((toDo) => toDo.id == id);
-    if(index !== -1){
-        const toDo = toDoList[index]
+const getDetail = async (id) => {
+    const toDo = await ToDo.findOne({
+      where: {
+        id
+      }
+    })
+    if(toDo){
         return toDo
     }else{
         return false
     }
 }
 
-const create = (toDo) => {
-    const newToDo = {
-        id: Math.random(),
-        ...toDo
-    }
-    toDoList = [...toDoList, toDo]
+const create = async (toDo) => {
+    const newToDo = await ToDo.create(toDo)
+ 
     return newToDo
 }
 
-const update = (id, toDo) => {
-    const index = toDoList.findIndex(toDo => toDo.id == id)
-    if(index !== -1){
-        const toDoOld = toDoList[index]
-        const toDoUpdated = {
-            ...toDoOld,
-            ...toDo
-        }
-        toDoList[index] = toDoUpdated
-        return toDoUpdated
-    }else{
-        return false
+const update = async (id, description, isFinish) => {
+  const toDo = await ToDo.findOne({
+    where: {
+      id
     }
+  })
+  if(toDo){
+    toDo.description = description;
+    toDo.isFinish = isFinish
+    const toDoUpdated = await toDo.save()
+    return toDoUpdated
+  }else{
+    return null
+  }
+  
 }
 
-const deleteById = (id) => {
-    const index = toDoList.findIndex(toDo => toDo.id == id)
-    if(index !== -1) {
-        const toDo = toDoList[index]
-        toDoList.splice(index, 1)
-        return toDo
+const deleteById = async (id) => {
+    
+  const toDoDelete = await getDetail(id)
+
+    if(toDoDelete) {
+       await ToDo.destroy({
+          where: {
+            id
+          }
+        })
+        return toDoDelete
     }else{
         return false
     }
